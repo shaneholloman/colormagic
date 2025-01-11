@@ -76,7 +76,7 @@
 
       <div class="text-center mt-4">
         <UButton
-          :to="localePath('/palette/explore')"
+          :to="localePath(`/palette/explore?sort=${PaletteSortBy.POPULAR}`)"
           title="Explore all palettes"
           trailing-icon="i-heroicons-arrow-right"
         >
