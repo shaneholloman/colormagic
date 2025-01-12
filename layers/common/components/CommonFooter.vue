@@ -179,24 +179,8 @@ const moreLinks = computed(() => [
     to: 'https://github.com/timb-103/colormagic'
   },
   {
-    label: 'Color Wheel',
-    to: 'https://colorwheel.co?ref=colormagic'
-  },
-  {
-    label: 'Hex Code Color Picker',
-    to: 'https://rgbhexcode.com?ref=colormagic'
-  },
-  {
-    label: 'Random Color Generator',
-    to: 'https://randomcolor.com?ref=colormagic'
-  },
-  {
-    label: 'Color Palettes Inspiration',
-    to: 'https://colordrop.io?ref=colormagic'
-  },
-  {
-    label: 'Color Converter',
-    to: 'https://convertacolor.com?ref=colormagic'
+    label: 'About',
+    to: '/about'
   }
 ]);
 </script>
