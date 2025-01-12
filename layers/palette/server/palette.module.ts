@@ -60,7 +60,8 @@ export function getPaletteModule(
     setup: async () => {
       await Promise.all([
         repository.setup(),
-        likeRepository.setup()
+        likeRepository.setup(),
+        tagRepository.setup()
       ]);
     }
   };
