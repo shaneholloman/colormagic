@@ -16,11 +16,15 @@ export default defineEventHandler(async (event): Promise<ListPaletteDto> => {
     userId = auth.userId;
   } catch {}
 
-  const response = await modules.palette.service.list(page, size, {
-    tags,
+  if (tags !== undefined && tags.length > 0) {
+    return await modules.palette.service.listByTags(page, size, {
+      userId,
+      tags
+    });
+  }
+
+  return await modules.palette.service.list(page, size, {
     userId,
     sortBy: query.sortBy
   });
-
-  return response;
 });

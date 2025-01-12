@@ -10,6 +10,7 @@
     <ExplorePalettes
       :tags="[]"
       :sort-by="sortBy"
+      :is-sort-hidden="false"
     />
   </div>
 </template>

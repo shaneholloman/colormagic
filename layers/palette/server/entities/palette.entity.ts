@@ -19,3 +19,13 @@ export interface PaletteLikeEntity {
 }
 
 export type CreatablePaletteLikeEntity = Omit<PaletteLikeEntity, '_id'>;
+
+export interface PaletteTagEntity {
+  _id: ObjectId
+  tag: string
+  paletteIds: ObjectId[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type CreatablePaletteTagEntity = Omit<PaletteTagEntity, '_id'>;

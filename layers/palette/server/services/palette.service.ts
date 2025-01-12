@@ -7,30 +7,29 @@ import { arrangeColors } from '../../utils/color-arrange.util';
 import type { PaletteEntity } from '../entities/palette.entity';
 import { PaletteSortBy } from '../../types';
 import type { PaletteLikeService } from './palette-like.service';
+import type { PaletteTagService } from './palette-tag.service';
 import type { AIService } from '~/layers/ai/server/services/ai.service';
 
 export type ListPaletteFilter = Pick<ListPaletteInputDto, 'sortBy'> & {
-  tags?: string[]
   userId?: string
+};
+
+export interface ListPaletteByTagsFilter {
+  userId?: string
+  tags: string[]
 };
 
 export class PaletteService {
   constructor(
     private readonly repository: PaletteRepository,
     private readonly aiService: AIService,
-    private readonly likeService: PaletteLikeService
+    private readonly likeService: PaletteLikeService,
+    private readonly tagService: PaletteTagService
   ) {}
 
   public async list(page: number, size: number, filter: ListPaletteFilter): Promise<ListPaletteDto> {
     const colFilter: Filter<PaletteEntity> = {};
     let sort: Sort = { createdAt: -1 };
-
-    /** @todo fix frontend to only allow 3 tags at a time */
-    if (filter.tags !== undefined && filter.tags.length > 0) {
-      colFilter.tags = {
-        $all: filter.tags.slice(0, 2)
-      };
-    }
 
     if (filter.sortBy === PaletteSortBy.POPULAR) {
       sort = { likesCount: -1 };
@@ -53,6 +52,50 @@ export class PaletteService {
 
     return {
       items: entities.map(entity => mapPaletteEntityToDto(entity, likedPaletteIds))
+    };
+  }
+
+  public async listByTags(page: number, size: number, filter: ListPaletteByTagsFilter): Promise<ListPaletteDto> {
+    const ids = await this.tagService.listPaletteIdsByTags(page, size, filter.tags);
+    const entities = await this.repository.listByPaletteIds(ids, {
+      likesCount: -1
+    });
+
+    /** @description link likes to palettes */
+    let likedPaletteIds: string[] = [];
+    if (filter.userId !== undefined) {
+      const paletteIds = entities.map(v => v._id.toHexString());
+      const likes = await this.likeService.listByPaletteIds(filter.userId, paletteIds);
+      likedPaletteIds = likes.map(v => v.paletteId);
+    }
+
+    return {
+      items: entities.map(entity => mapPaletteEntityToDto(entity, likedPaletteIds))
+    };
+  }
+
+  public async listByTag(tag: string, size: number, sortBy: PaletteSortBy): Promise<ListPaletteDto> {
+    const colFilter: Filter<PaletteEntity> = {
+      tags: {
+        $in: [tag]
+      }
+    };
+
+    let sort: Sort = { createdAt: -1 };
+
+    if (sortBy === PaletteSortBy.POPULAR) {
+      sort = { likesCount: -1 };
+    }
+
+    if (sortBy === PaletteSortBy.TRENDING) {
+      sort = { likesCount: -1 };
+      colFilter.createdAt = { $gte: subDays(new Date(), 2) };
+    }
+
+    const entities = await this.repository.list(0, size, colFilter, sort);
+
+    return {
+      items: entities.map(entity => mapPaletteEntityToDto(entity))
     };
   }
 

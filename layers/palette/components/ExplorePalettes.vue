@@ -24,6 +24,7 @@
         />
 
         <PaletteSortSelectMenu
+          v-if="!isSortHidden"
           :initial-sort-by="sortBy"
           @change="value => sortBy = value"
         />
@@ -78,6 +79,7 @@ const localePath = useLocalePath();
 export interface Props {
   tags: string[]
   isFiltersHidden?: boolean
+  isSortHidden?: boolean
   isPaginationHidden?: boolean
   limit?: number
   sortBy?: PaletteSortBy
@@ -86,6 +88,7 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   isFiltersHidden: false,
   isPaginationHidden: false,
+  isSortHidden: true,
   limit: 50,
   sortBy: undefined
 });

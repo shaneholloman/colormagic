@@ -23,12 +23,22 @@ export class PaletteRepository {
   }
 
   public async list(page: number, size: number, filter: Filter<PaletteEntity>, sort: Sort): Promise<PaletteEntity[]> {
-    return await this.collection.aggregate<PaletteEntity>([
-      { $match: filter },
-      { $sort: sort },
-      { $skip: page * size },
-      { $limit: size }
-    ]).toArray();
+    return await this.collection.find(filter)
+      .sort(sort)
+      .skip(page * size)
+      .limit(size)
+      .toArray();
+  }
+
+  public async listByPaletteIds(ids: string[], sort: Sort): Promise<PaletteEntity[]> {
+    return await this.collection
+      .find({
+        _id: {
+          $in: ids.map(v => new ObjectId(v))
+        }
+      })
+      .sort(sort)
+      .toArray();
   }
 
   public async count(): Promise<number> {

@@ -56,6 +56,11 @@ export default defineNuxtConfig({
       carbonAdsScriptUrl: process.env.CARBONADS_SCRIPT ?? ''
     }
   },
+  nitro: {
+    experimental: {
+      tasks: true
+    }
+  },
   routeRules: {
     /** @description add cache time for images to make pagespeed insights happy */
     // '/_nuxt/**': { headers: { 'cache-control': 'max-age=31536000' } },
