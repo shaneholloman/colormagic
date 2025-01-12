@@ -42,10 +42,7 @@ export class ImageService {
   }
 
   public async generateByTag(tag: string): Promise<Buffer> {
-    const { items: [palette] } = await this.paletteService.list(0, 1, {
-      tags: [tag],
-      sortBy: PaletteSortBy.POPULAR
-    });
+    const { items: [palette] } = await this.paletteService.listByTag(tag, 1, PaletteSortBy.POPULAR);
 
     const svg = await this.generateSVG(palette.colors);
     const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
