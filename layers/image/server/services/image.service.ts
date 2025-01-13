@@ -43,6 +43,10 @@ export class ImageService {
   public async generateByTags(tags: string[], params?: { width: number, height: number }): Promise<Buffer> {
     const { items: [palette] } = await this.paletteService.listByTags(0, 1, { tags });
 
+    if (palette?.colors === undefined) {
+      throw createError({ statusCode: 404, statusMessage: `palette not found with tags: ${tags.join(',')}` });
+    }
+
     const svg = await this.generateSVG(palette.colors, params);
     const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
 
