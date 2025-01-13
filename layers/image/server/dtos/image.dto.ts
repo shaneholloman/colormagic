@@ -20,7 +20,13 @@ export const ImageByIdInputDtoSchema = Type.Object({
 export type ImageByIdInputDto = Static<typeof ImageByIdInputDtoSchema>;
 
 export const ImageByTagInputDtoSchema = Type.Object({
-  tag: Type.String()
+  params: Type.Object({
+    tags: Type.String()
+  }),
+  query: Type.Optional(Type.Object({
+    width: Type.Optional(Type.String()),
+    height: Type.Optional(Type.String())
+  }))
 });
 
 export type ImageByTagInputDto = Static<typeof ImageByTagInputDtoSchema>;

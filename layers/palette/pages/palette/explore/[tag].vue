@@ -11,6 +11,9 @@
     <ExplorePalettes
       :tags="tags ?? []"
     />
+
+    <!-- images -->
+    <ExploreTagImages :tags="tags" />
   </div>
 </template>
 

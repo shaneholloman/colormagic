@@ -17,8 +17,12 @@ export class ImageValidation {
     return query;
   }
 
-  public async getTagParams(event: H3Event): Promise<ImageByTagInputDto> {
-    return validateParams(event, ImageByTagInputDtoSchema);
+  public async getTagParams(event: H3Event): Promise<ImageByTagInputDto['params']> {
+    return validateParams(event, ImageByTagInputDtoSchema.properties.params);
+  }
+
+  public async getByTagQuery(event: H3Event): Promise<ImageByTagInputDto['query']> {
+    return validateQuery(event, ImageByIdInputDtoSchema.properties.query);
   }
 
   public async getByIdParams(event: H3Event): Promise<ImageByIdInputDto['params']> {

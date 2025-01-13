@@ -1,6 +1,5 @@
 import sharp from 'sharp';
 import type { PaletteService } from '~/layers/palette/server/services/palette.service';
-import { PaletteSortBy } from '~/layers/palette/types';
 
 export interface SvgParams {
   width?: number
@@ -41,10 +40,10 @@ export class ImageService {
     return pngBuffer;
   }
 
-  public async generateByTag(tag: string): Promise<Buffer> {
-    const { items: [palette] } = await this.paletteService.listByTag(tag, 1, PaletteSortBy.POPULAR);
+  public async generateByTags(tags: string[], params?: { width: number, height: number }): Promise<Buffer> {
+    const { items: [palette] } = await this.paletteService.listByTags(0, 1, { tags });
 
-    const svg = await this.generateSVG(palette.colors);
+    const svg = await this.generateSVG(palette.colors, params);
     const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
 
     return pngBuffer;
