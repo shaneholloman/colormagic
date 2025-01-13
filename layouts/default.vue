@@ -3,6 +3,22 @@
   <div>
     <NuxtLoadingIndicator color="#5576ff" />
 
+    <div class="sticky top-0 z-10">
+      <UButton
+        to="https://instagram.com/colormagic_app"
+        icon="fa6-brands-instagram"
+        variant="soft"
+        color="primary"
+        class="rounded-none border-b"
+        block
+        target="_blank"
+        size="md"
+      >
+        <span class="sm:hidden">Follow us on Instagram</span>
+        <span class="hidden sm:inline-block">Follow us on Instagram for daily color palettes</span>
+      </UButton>
+    </div>
+
     <!-- nav -->
     <CommonNav />
 
