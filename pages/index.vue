@@ -68,7 +68,7 @@
       </h2>
       <ExplorePalettes
         :tags="[]"
-        :limit="6"
+        :limit="12"
         :sort-by="PaletteSortBy.POPULAR"
         is-filters-hidden
         is-pagination-hidden
@@ -92,7 +92,7 @@
       </h2>
       <ExplorePalettes
         :tags="[]"
-        :limit="6"
+        :limit="12"
         :sort-by="PaletteSortBy.TRENDING"
         is-filters-hidden
         is-pagination-hidden
