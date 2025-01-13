@@ -72,6 +72,7 @@ const localePath = useLocalePath();
 
 export interface Props {
   tags: string[]
+  isFiltersHidden?: boolean
   isSortHidden?: boolean
   isPaginationHidden?: boolean
   limit?: number
@@ -79,6 +80,7 @@ export interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  isFiltersHidden: false,
   isPaginationHidden: false,
   isSortHidden: true,
   limit: 50,
